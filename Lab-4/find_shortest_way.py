@@ -5,6 +5,14 @@ def is_valid(x, y, rows, cols):
     return 0 <= x < rows and 0 <= y < cols
 
 
+def is_not_bombed(m, j, i):
+    try:
+        return m[i][j - 1] != 0 and m[i][j + 1] != 0 and m[i - 1][j] != 0 and m[i + 1][j] != 0 and m[i - 1][j - 1] != 0 \
+            and m[i - 1][j + 1] != 0 and m[i + 1][j - 1] != 0 and m[i + 1][j + 1] != 0
+    except:
+        return False
+
+
 def create_graph(m):
     graph = {}
     rows, cols = len(m), len(m[0])
@@ -16,7 +24,7 @@ def create_graph(m):
                 neighbors = []
                 for dx, dy in directions:
                     new_x, new_y = i + dx, j + dy
-                    if is_valid(new_x, new_y, rows, cols) and m[new_x][new_y] == 1:
+                    if is_valid(new_x, new_y, rows, cols) and m[new_x][new_y] == 1 and is_not_bombed(m, j, i):
                         neighbors.append((new_x, new_y))
                 graph[(i, j)] = neighbors
 
